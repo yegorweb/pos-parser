@@ -11,7 +11,7 @@ import fs from 'node:fs'
 */
 
 let pages = {
-    'Фискальный регистраторы': 'https://pos-center.ru/tag-fiscal-registrar/',
+    'Фискальные регистраторы': 'https://pos-center.ru/tag-fiscal-registrar/',
     'Сканеры штрих-кода': 'https://pos-center.ru/bar-code-scanners/',
     'POS-системы': 'https://pos-center.ru/pos-systems/',
     'Терминалы сбора данных': 'https://pos-center.ru/data-collection-terminal/',
