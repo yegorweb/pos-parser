@@ -11,19 +11,20 @@ import fs from 'node:fs'
 */
 
 let pages = {
-    fr: 'https://pos-center.ru/tag-fiscal-registrar/',
-    scanners: 'https://pos-center.ru/bar-code-scanners/',
-    pos: 'https://pos-center.ru/pos-systems/',
-    terminals: 'https://pos-center.ru/data-collection-terminal/',
-    scales: 'https://pos-center.ru/vesy-torgovye/'
+    'Фискальные регистраторы': 'https://pos-center.ru/tag-fiscal-registrar/',
+    'Сканеры штрих-кода': 'https://pos-center.ru/bar-code-scanners/',
+    'POS-системы': 'https://pos-center.ru/pos-systems/',
+    'Терминалы сбора данных': 'https://pos-center.ru/data-collection-terminal/',
+    'Весы торговые': 'https://pos-center.ru/vesy-torgovye/'
 }
 
-let json = {}
+
+let resultArray = [];
 
 for (let name in pages) {
     let html = (await axios.get(pages[name])).data
     let page = new JSDOM(html)
-
+    let obj = {}
     let result = []
 
     for (let item of page.window.document.getElementsByClassName('product-item')) {
@@ -38,12 +39,14 @@ for (let name in pages) {
             let key = prop.childNodes[0].textContent.slice(0, -1)
             let value = prop.childNodes[1].textContent.slice(1)
 
-            product.values[key] = value        
+            product.values[key] = value
         }
         result.push(product)
     }
+    obj.groupName = name
+    obj.items = result
+    resultArray.push(obj)
 
-    json[name] = result
 }
 
-fs.writeFileSync('store.json', JSON.stringify(json))
+fs.writeFileSync('store.json', JSON.stringify(resultArray))
